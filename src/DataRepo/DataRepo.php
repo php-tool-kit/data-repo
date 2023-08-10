@@ -36,11 +36,11 @@ class DataRepo extends PDO {
         $count = sizeof($stmt->fetchAll());
         if ($count == 0 ) return false;
         if ($count == 1 ) return true;
-        throw PDOException("Quantidade de tabelas é maior que 1: $count");
+        throw new PDOException("Quantidade de tabelas é maior que 1: $count");
     }
     
     private function throwIfTableNotExists(string $tableName): void {
-        if (!$this->tableExists($tableName)) throw Exception("Tabela $tableName não existe!");
+        if (!$this->tableExists($tableName)) throw new Exception("Tabela $tableName não existe!");
     }
 
     

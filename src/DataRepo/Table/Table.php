@@ -3,6 +3,7 @@
 namespace Ptk\DataRepo\Table;
 
 use PDO;
+use Exception;
 use \Ptk\DataRepo\DataRepo;
 use \Ptk\DataRepo\Field\FieldTypes;
 use \Ptk\DataRepo\Field\FieldCollates;
@@ -19,23 +20,18 @@ class Table {
     private DataRepo $repo;
     
 
-    public function __construct(string $name, ?Field ...$fields) {
+    public function __construct(string $name) {
         $this->name = $name;
-        if (!is_null($fields)) {
-            foreach ($fields as $field) {
-                $this->fieldsDef[$field->getName()] = $field;
-            }
-        }
     }
     
 
     public function temporaryTable(bool $value): Table {
-        $this->tempTable = $value;
+        $this->temporary = $value;
         return $this;
     }
     
     public function isTemporary(): bool {
-        return $this->tempTable;
+        return $this->temporary;
     }
     
     public function createIfNotExists(bool $value): Table {
