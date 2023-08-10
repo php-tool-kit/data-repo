@@ -26,7 +26,7 @@ class DataRepo extends PDO {
      * @param string $local Local de armazenamento da tabela. O padrão é na memória. Se fornecido um caminho de arquivo, ele será utilizado. Deve ser compatível com o PDO DSN para SQLite.
      * @param string|null $userName
      * @param string|null $password
-     * @param array|null $options
+     * @param array<mixed>|null $options
      */
     public function __construct(string $local = ':memory:', ?string $userName = null, ?string $password = null, ?array $options = null) {
         $dsn = "sqlite:$local";

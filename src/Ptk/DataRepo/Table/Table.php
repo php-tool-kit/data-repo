@@ -210,7 +210,7 @@ class Table {
      * 
      * Os dados devem estar organizados num array bidimensional por linhas/colunas.
      * 
-     * @param array<array> $data
+     * @param array<mixed> $data
      * @return Table
      * @throws Exception
      */
