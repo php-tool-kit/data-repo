@@ -1,0 +1,17 @@
+{
+    "name": "php-tool-kit/data-repo",
+    "description": "Ferramenta para manipular dados de várias origens usando SQL.",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Ptk\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Everton da Rosa"
+        }
+    ],
+    "require": {}
+}
