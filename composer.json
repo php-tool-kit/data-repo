@@ -13,5 +13,11 @@
             "name": "Everton da Rosa"
         }
     ],
-    "require": {}
+    "require": {},
+    "config": {
+        "platform": {
+            "php": "8.2.9",
+            "ext-pdo_sqlite": "8.2.9"
+        }
+    }
 }
