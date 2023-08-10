@@ -3,10 +3,14 @@
 namespace Ptk\DataRepo;
 
 use PDO;
+use PDOException;
+use Exception;
 
 use Ptk\DataRepo\Table\Table;
 
 class DataRepo extends PDO {
+    
+    private array $tables = [];
     
     public function __construct(string $local = ':memory:', ?string $userName = null, ?string $password = null, ?array $options = null) {
         $dsn = "sqlite:$local";
@@ -14,64 +18,31 @@ class DataRepo extends PDO {
         parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    public function getTableNames(): array {
-
+    public function addTable(Table $table): DataRepo {
+        $this->exec($table->getSQL());
+        $this->tables[$table->getTableName()] = $table;
+        $table->setRepo($this);
+        return $this;
+    }
+    
+    public function getTable(string $tableName): Table {
+        $this->throwIfTableNotExists($tableName);
+        return $this->tables[$tableName];
+    }
+    
+    public function tableExists(string $tableName): bool {
+        $stmt = $this->prepare('SELECT name FROM sqlite_master WHERE type="table" AND name=:tableName;');
+        $stmt->execute(['tableName' => $tableName]);
+        $count = sizeof($stmt->fetchAll());
+        if ($count == 0 ) return false;
+        if ($count == 1 ) return true;
+        throw PDOException("Quantidade de tabelas é maior que 1: $count");
+    }
+    
+    private function throwIfTableNotExists(string $tableName): void {
+        if (!$this->tableExists($tableName)) throw Exception("Tabela $tableName não existe!");
     }
 
-    public function getTables(): array {
-
-    }
-
-    public function dropTable(string $tableName): DataRepo {
-
-    }
-
-    public function truncateTable(string $tableName): DataRepo {
-
-    }
-
-    public function addTable(Table $tableName): DataRepo {
-
-    }
-
-    public function fromArray(array $data): DataRepo {
-
-    }
-
-    public function fromSpreadSheet(string $filePath, string $sheetName): DataRepo {
-
-    }
-
-    public function fromWorkBook(string $filePath): DataRepo {
-
-    }
-
-    public function fromCSV(string $filePath): DataRepo {
-
-    }
-
-    private function createTable(): void {
-        
-    }
-
-    private function insertData(array $data): void {
-
-    }
-
-    public function toArray(): array {
-
-    }
-
-    public function toSpreadSheet(string $filePath, string $sheetName): DataRepo {
-
-    }
-
-    public function toWorkBook(string $filePath): DataRepo {
-
-    }
-
-    public function toCSV(string $filePath): DataRepo {
-
-    }
+    
 
 }
