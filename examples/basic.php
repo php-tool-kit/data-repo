@@ -7,6 +7,7 @@ use Ptk\DataRepo\Table\Table;
 use Ptk\DataRepo\Field\Field;
 use Ptk\DataRepo\Field\FieldTypes;
 
+// Dados de exemplo.
 $data = [
     [
         'id' => 1,
@@ -45,9 +46,13 @@ $data = [
     ],
 ];
 
+// Cria o repositório.
 $repo = new DataRepo();
 
+// Cria a tabela "pessoas"
 $tblPessoas = new Table('pessoas');
+
+// Adiciona os campos à tabela "pessoas".
 $tblPessoas
     ->addField('id', FieldTypes::Int, unique: true, nullable: false)
     ->addField('nome', nullable: false, unique: true)
@@ -56,6 +61,8 @@ $tblPessoas
     ->addField('ativo', FieldTypes::Int)
 ;
 
+// Adiciona a tabela ao repositório.
 $repo->addTable($tblPessoas);
 
+// Insere os dados na tabela.
 $tblPessoas->insertData($data);
