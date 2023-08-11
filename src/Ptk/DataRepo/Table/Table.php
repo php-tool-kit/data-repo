@@ -266,4 +266,20 @@ class Table {
         if ($this->cache === []) return false;
         return true;
     }
+    
+    /**
+     * Retorna todos os dados da tabela em um array bidimensional linha/coluna.
+     * 
+     * Se a tabela ainda não foi anexada, retorna o que existir em cache.
+     * 
+     * @return array<mixed>
+     */
+    public function toArray(): array {
+        if (is_null($this->repo)) return $this->cache;
+        
+        $sql = "SELECT * FROM {$this->name}";
+        $stmt = $this->repo->query($sql);
+        if ($stmt) return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return [];
+    }
 }

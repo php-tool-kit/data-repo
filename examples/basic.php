@@ -68,3 +68,6 @@ $repo->addTable($tblPessoas);
 
 // Insere os dados na tabela.
 $tblPessoas->fromArray($data);
+
+// Busca os dados inseridos
+print_r($tblPessoas->toArray());
