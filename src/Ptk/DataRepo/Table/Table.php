@@ -108,6 +108,7 @@ class Table {
      * @param mixed $default Valor padrão para o campo.
      * @param FieldCollates|null $collate Um dos collations suportados pelo SQLite.
      * @return Table
+     * @SuppressWarnings(PHPMD.BooleanArgumentFlag)
      */
     public function addField(string $name, FieldTypes $type = FieldTypes::Text, bool $nullable = true, bool $unique = false, mixed $default = null, ?FieldCollates $collate = null): Table {
         $this->fieldsDef[$name] = [
@@ -292,10 +293,11 @@ class Table {
      * @param string $filepath O caminho para a pasta de trabalho.
      * @param int|string $sheet O número (0-indexed) ou o nome da planilha.
      * @return Table
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public function fromSpreadsheet(string $filepath, int|string $sheet): Table {
-        $wb = SpreadsheetReader::loadSpreadsheet($filepath);
-        $this->fromArray(SpreadsheetReader::readDataFromSheet($wb, $sheet));
+        $wbook = SpreadsheetReader::loadSpreadsheet($filepath);
+        $this->fromArray(SpreadsheetReader::readDataFromSheet($wbook, $sheet));
         return $this;
     }
     

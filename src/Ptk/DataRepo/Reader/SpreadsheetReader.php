@@ -17,26 +17,27 @@ class SpreadsheetReader {
      * 
      * @param string $filepath
      * @return Spreadsheet
+     * @SuppressWarnings(PHPMD.StaticAccess)
      */
     public static function loadSpreadsheet(string $filepath): Spreadsheet {
-        $wb = IOFactory::load($filepath);
-        return $wb;
+        $wbook = IOFactory::load($filepath);
+        return $wbook;
     }
     
     /**
      * Retorna os dados de uma planilha.
      * 
-     * @param Spreadsheet $wb
+     * @param Spreadsheet $wbook
      * @param int|string $sheet
      * @return array<mixed>
      */
-    public static function readDataFromSheet(Spreadsheet $wb, int|string $sheet): array {
+    public static function readDataFromSheet(Spreadsheet $wbook, int|string $sheet): array {
         $data = [];
         if (is_int($sheet)){
-            $data = $wb->getSheet($sheet)->toArray();
+            $data = $wbook->getSheet($sheet)->toArray();
         }
         if (is_string($sheet)){
-            $data = $wb->getSheetByNameOrThrow($sheet)->toArray();
+            $data = $wbook->getSheetByNameOrThrow($sheet)->toArray();
         }
         return $data;
     }
