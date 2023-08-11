@@ -25,7 +25,8 @@
     },
     "require": {
         "php": ">=8.2.9",
-        "ext-pdo_sqlite": ">=8.2.9"
+        "ext-pdo_sqlite": ">=8.2.9",
+        "phpoffice/phpspreadsheet": "^1.29"
     },
     "scripts": {
         "stan": "./vendor/bin/phpstan analyse --level=8 ./src/"

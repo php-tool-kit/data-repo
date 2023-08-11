@@ -4,9 +4,11 @@ namespace Ptk\DataRepo\Table;
 
 use PDO;
 use Exception;
-use \Ptk\DataRepo\DataRepo;
-use \Ptk\DataRepo\Field\FieldTypes;
-use \Ptk\DataRepo\Field\FieldCollates;
+use Ptk\DataRepo\DataRepo;
+use Ptk\DataRepo\Field\FieldTypes;
+use Ptk\DataRepo\Field\FieldCollates;
+use Ptk\DataRepo\Reader\SpreadsheetReader;
+
 
 /**
  * Representa uma tabela dentro do repositório.
@@ -282,4 +284,21 @@ class Table {
         if ($stmt) return $stmt->fetchAll(PDO::FETCH_ASSOC);
         return [];
     }
+    
+    /**
+     * Carrega os dados a partir de uma planilha de uma pasta de trabalho.
+     * 
+     * 
+     * @param string $filepath O caminho para a pasta de trabalho.
+     * @param int|string $sheet O número (0-indexed) ou o nome da planilha.
+     * @return Table
+     */
+    public function fromSpreadsheet(string $filepath, int|string $sheet): Table {
+        $wb = SpreadsheetReader::loadSpreadsheet($filepath);
+        $this->fromArray(SpreadsheetReader::readDataFromSheet($wb, $sheet));
+        return $this;
+    }
+    
+    
+    
 }
