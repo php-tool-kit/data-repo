@@ -33,7 +33,7 @@ class DataRepo extends PDO {
         parent::__construct($dsn, $userName, $password, $options);
         parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-
+    
     /**
      * Cria uma nova tabela no repositório.
      * 

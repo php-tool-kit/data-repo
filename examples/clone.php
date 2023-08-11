@@ -49,7 +49,7 @@ $data1 = [
 ];
 
 // Cria o repositório.
-$repo1 = new DataRepo('repo1.db');
+$repo1 = new DataRepo();
 
 // Cria a tabela "pessoas"
 $tblPessoas1 = new Table('pessoas');
@@ -70,7 +70,7 @@ $repo1->addTable($tblPessoas1);
 $tblPessoas1->fromArray($data1);
 
 // Cria um outro repositório.
-$repo2 = new DataRepo('repo2.db');
+$repo2 = new DataRepo();
 
 // Clonando a primeira tabela.
 // Essa nova tabela ainda estará vinculada ao $repo1

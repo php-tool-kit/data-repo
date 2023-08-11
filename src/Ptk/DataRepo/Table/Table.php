@@ -220,6 +220,7 @@ class Table {
      * @throws Exception
      */
     private function insertData(): void {
+        if (is_null($this->repo)) throw new Exception('Tabela sem repositório anexado.');
         $data = $this->cache;
         $strFields = implode(', ', $this->getFieldNames());
         $valueKeys = [];
@@ -242,6 +243,12 @@ class Table {
         $this->cache = [];
     }
     
+    /**
+     * Insere dados a partir de um array bidimensional linha/coluna.
+     * 
+     * @param array<mixed> $data
+     * @return Table
+     */
     public function fromArray(array $data): Table {
         $this->cache = $data;
         if ($this->repo instanceof DataRepo){
@@ -249,7 +256,12 @@ class Table {
         }
         return $this;
     }
-    
+
+    /**
+     * Indica se existem dados em cache.
+     * 
+     * @return bool
+     */
     private function hasCache(): bool {
         if ($this->cache === []) return false;
         return true;
