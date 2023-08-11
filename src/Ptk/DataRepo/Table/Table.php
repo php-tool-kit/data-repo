@@ -49,7 +49,14 @@ class Table {
      * 
      * @var DataRepo O repositório no qual a tabela está anexada.
      */
-    private DataRepo $repo;
+    private ?DataRepo $repo = null;
+    
+    /**
+     * 
+     * @var array<mixed> Cache para dados a serem inseridos, usado quando a tabela não foi inserida em um repositório.
+     * 
+     */
+    private array $cache = [];
     
     /**
      * Construtor de classe.
@@ -168,6 +175,7 @@ class Table {
      */
     public function setRepo(DataRepo $repo): void {
         $this->repo = $repo;
+        if ($this->hasCache()) $this->insertData ();
     }
 
     /**
@@ -206,15 +214,13 @@ class Table {
     }
     
     /**
-     * Insere dados na tabela.
+     * Insere dados do cache na tabela.
      * 
-     * Os dados devem estar organizados num array bidimensional por linhas/colunas.
-     * 
-     * @param array<mixed> $data
-     * @return Table
+     * @return void
      * @throws Exception
      */
-    public function insertData(array $data): Table {
+    private function insertData(): void {
+        $data = $this->cache;
         $strFields = implode(', ', $this->getFieldNames());
         $valueKeys = [];
         foreach ($this->getFieldNames() as $colName){
@@ -233,8 +239,19 @@ class Table {
             $this->repo->rollBack();
             throw $ex;
         }
-        
+        $this->cache = [];
+    }
+    
+    public function fromArray(array $data): Table {
+        $this->cache = $data;
+        if ($this->repo instanceof DataRepo){
+            $this->insertData();
+        }
         return $this;
     }
     
+    private function hasCache(): bool {
+        if ($this->cache === []) return false;
+        return true;
+    }
 }

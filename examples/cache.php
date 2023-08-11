@@ -1,6 +1,8 @@
 <?php
-
-// Exemplo básico
+// Exemplo usando cache de dados.
+// O cache de dados somente é usado se forem inseridos dados em uma tabela sem que ela esteja anexada a um repositório.
+// Caso sejam inseridos dados em uma tabela sem que ela esteja anexa a um repositório, os dados ficam em cache na tabela (nãoestão disponíveis para outras operações).
+// Quando a tabela for anexada a um repositório (a tabela é criada no SQLite), os dados são inseridos e ficam disponíveis para outras operações.
 
 require_once '../vendor/autoload.php';
 
@@ -63,8 +65,11 @@ $tblPessoas
     ->addField('ativo', FieldTypes::Int)
 ;
 
+// Insere os dados na tabela.
+// Os dados ficam em cache (não disponíveis).
+$tblPessoas->fromArray($data);
+
 // Adiciona a tabela ao repositório.
+// Os dados são adicionados à tabela efetivamente.
 $repo->addTable($tblPessoas);
 
-// Insere os dados na tabela.
-$tblPessoas->fromArray($data);
